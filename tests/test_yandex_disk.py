@@ -1,24 +1,25 @@
 import os
 import unittest
+
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN = os.environ['YANDEX_DISK_POLIGON_TOKEN']
-TESTING_URL = 'https://cloud-api.yandex.net/v1/disk/resources'
 
-class TestYandexDick(unittest.TestCase):
-    
+TOKEN = os.environ["YANDEX_DISK_POLIGON_TOKEN"]
+TESTING_URL = "https://cloud-api.yandex.net/v1/disk/resources"
+
+
+class TestYandexDisk(unittest.TestCase):
     def tearDown(self):
-        headers = {'Authorization': f'OAuth: {TOKEN}'}
-        # Гарантированно чистим за собой обе возможные папки, если они вдруг остались
+        headers = {"Authorization": f"OAuth {TOKEN}"}
         folders_to_clean = ["test-folder-pos-1", "test-folder-neg-1"]
         for folder in folders_to_clean:
             requests.delete(TESTING_URL, params={"path": folder}, headers=headers)
 
     def test_create_folder_positive(self):
         # Arrange
-        headers = {'Authorization': f'OAuth: {TOKEN}'}
+        headers = {"Authorization": f"OAuth {TOKEN}"}
         params = {"path": "test-folder-pos-1"}
 
         # Act
@@ -31,7 +32,7 @@ class TestYandexDick(unittest.TestCase):
 
     def test_create_folder_negative_re_creating_folder(self):
         # Arrange
-        headers = {'Authorization': f'OAuth: {TOKEN}'}
+        headers = {"Authorization": f"OAuth {TOKEN}"}
         params = {"path": "test-folder-neg-1"}
 
         # Act
@@ -44,7 +45,7 @@ class TestYandexDick(unittest.TestCase):
 
     def test_create_folder_negative_folder_wrong_name(self):
         # Arrange
-        headers = {'Authorization': f'OAuth: {TOKEN}'}
+        headers = {"Authorization": f"OAuth {TOKEN}"}
         params = {"path": ""}
 
         # Act
